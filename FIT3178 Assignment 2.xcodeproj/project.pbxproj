@@ -10,6 +10,7 @@
 		1E90063B261C56AE007D0DAB /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90063A261C56AE007D0DAB /* Meal.swift */; };
 		1E90063E261C577E007D0DAB /* IngredientMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90063D261C577E007D0DAB /* IngredientMeasurement.swift */; };
 		1E900641261C585B007D0DAB /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E900640261C585B007D0DAB /* Ingredient.swift */; };
+		1E900646261C5E2B007D0DAB /* MyMealsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E900645261C5E2B007D0DAB /* MyMealsTableViewController.swift */; };
 		1EE97821261ACFB400D07535 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE97820261ACFB400D07535 /* AppDelegate.swift */; };
 		1EE97823261ACFB400D07535 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE97822261ACFB400D07535 /* SceneDelegate.swift */; };
 		1EE97825261ACFB400D07535 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE97824261ACFB400D07535 /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 		1E90063A261C56AE007D0DAB /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		1E90063D261C577E007D0DAB /* IngredientMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientMeasurement.swift; sourceTree = "<group>"; };
 		1E900640261C585B007D0DAB /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
+		1E900645261C5E2B007D0DAB /* MyMealsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMealsTableViewController.swift; sourceTree = "<group>"; };
 		1EE9781D261ACFB400D07535 /* FIT3178 Assignment 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FIT3178 Assignment 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EE97820261ACFB400D07535 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EE97822261ACFB400D07535 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +55,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		1E900643261C5D01007D0DAB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1E900645261C5E2B007D0DAB /* MyMealsTableViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		1EE97814261ACFB400D07535 = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				1E900634261C566B007D0DAB /* Model */,
+				1E900643261C5D01007D0DAB /* Controller */,
 				1EE97820261ACFB400D07535 /* AppDelegate.swift */,
 				1EE97822261ACFB400D07535 /* SceneDelegate.swift */,
 				1EE97824261ACFB400D07535 /* ViewController.swift */,
@@ -157,6 +168,7 @@
 				1E90063B261C56AE007D0DAB /* Meal.swift in Sources */,
 				1E90063E261C577E007D0DAB /* IngredientMeasurement.swift in Sources */,
 				1E900641261C585B007D0DAB /* Ingredient.swift in Sources */,
+				1E900646261C5E2B007D0DAB /* MyMealsTableViewController.swift in Sources */,
 				1EE97825261ACFB400D07535 /* ViewController.swift in Sources */,
 				1EE97821261ACFB400D07535 /* AppDelegate.swift in Sources */,
 				1EE97823261ACFB400D07535 /* SceneDelegate.swift in Sources */,

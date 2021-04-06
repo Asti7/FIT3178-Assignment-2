@@ -14,7 +14,7 @@ class Meal: NSObject {
     var ingredients: [IngredientMeasurement]
     
     
-    init(name: String, instructions: String, ingredients: [IngredientMeasurement]) {
+    init(_ name: String, _ instructions: String, _ ingredients: [IngredientMeasurement]) {
         self.name = name
         self.instructions = instructions
         self.ingredients = ingredients
