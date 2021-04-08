@@ -19,7 +19,7 @@ class AddIngredientTableViewController: UITableViewController {
         Ingredient(name: "Apple Pie Vanilla Ice Cream ", ingredientDescription: "Lorem ipsum")
     ]
 
-    
+    var delegate: AddIngredientDelegate?
     
     func displayMessage(ingredient: String){
         let dialouge = UIAlertController(title: "Add measurement", message: "Enter measurement for \(ingredient)", preferredStyle: .alert)
@@ -38,7 +38,7 @@ class AddIngredientTableViewController: UITableViewController {
             }
             if let measurement = textFields.text{
                 print(measurement)
-                
+                self.navigationController?.popViewController(animated: true)
                 if measurement.isEmpty{
                     self.present(emptyDialouge, animated: true, completion: nil)
                 }
@@ -78,6 +78,7 @@ class AddIngredientTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let ingredient = ingredients[indexPath.row].name
+        delegate?.addIngredient(ingredient: ingredients[indexPath.row])
         displayMessage(ingredient: ingredient)
         
     }

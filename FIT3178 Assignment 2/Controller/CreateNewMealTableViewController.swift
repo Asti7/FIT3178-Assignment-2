@@ -7,7 +7,8 @@
 
 import UIKit
 
-class CreateNewMealTableViewController: UITableViewController, EditNameDelegate, EditInstructionsDelegate {
+class CreateNewMealTableViewController: UITableViewController, EditNameDelegate, EditInstructionsDelegate, AddIngredientDelegate {
+   
     
     
        
@@ -37,6 +38,16 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         let cell = tableView.cellForRow(at: IndexPath(row: 0, section: SECTION_INSTRUCTIONS))
         cell?.textLabel?.text = instructions
     }
+    
+    
+    func addIngredient(ingredient: Ingredient) {
+        tableView.performBatchUpdates({
+            self.ingredients.append(ingredient)
+            self.tableView.insertRows(at: [IndexPath(row: ingredients.count - 1, section: SECTION_INGREDIENTS)], with: .automatic)
+            self.tableView.reloadData()
+        }, completion: nil)
+    }
+    
     
     // MARK: - Table view data source
     
@@ -127,8 +138,6 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
      // Override to support editing the table view.
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        
         if editingStyle == .delete && indexPath.section == SECTION_INGREDIENTS {
             tableView.performBatchUpdates({
                 self.ingredients.remove(at: indexPath.row)
@@ -166,6 +175,9 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
             destination.delegate = self
         }else if segue.identifier == "goToEditInstructionScreen"{
             let destination = segue.destination as! EditInstructionsViewController
+            destination.delegate = self
+        }else if segue.identifier == "goToAddIngredientScreen"{
+            let destination = segue.destination as! AddIngredientTableViewController
             destination.delegate = self
         }
     }
