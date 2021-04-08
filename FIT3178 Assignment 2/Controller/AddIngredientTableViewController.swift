@@ -16,7 +16,7 @@ class AddIngredientTableViewController: UITableViewController {
         Ingredient(name: "Apple", ingredientDescription: "Fruit"),
         Ingredient(name: "Apple", ingredientDescription: "Fruit"),
         Ingredient(name: "Apple", ingredientDescription: "Fruit"),
-        Ingredient(name: "Apple", ingredientDescription: "Fruit")
+        Ingredient(name: "Apple Pie Vanilla Ice Cream ", ingredientDescription: "Lorem ipsum")
     ]
 
     
@@ -43,17 +43,11 @@ class AddIngredientTableViewController: UITableViewController {
                     self.present(emptyDialouge, animated: true, completion: nil)
                 }
             }
-            
-            
-            
         }))
         self.present(dialouge, animated: true, completion: nil)
     }
     
-    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -124,14 +118,27 @@ class AddIngredientTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+       
+        if segue.identifier == "goToIngredientDetailScreen"{
+            let destination = segue.destination as! IngredientDetailViewController
+            
+            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell){
+                destination.detail = ingredients[indexPath.row].ingredientDescription
+                destination.ingredientTitle = ingredients[indexPath.row].name
+            }
+        }
+        
+        
     }
-    */
+    
 
+}
+
+protocol AddIngredientDelegate{
+    func addIngredient(ingredient: Ingredient)
 }

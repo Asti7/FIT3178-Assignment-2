@@ -76,13 +76,18 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
         }
         
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CELL_INFO, for: indexPath)
+        let defaultCell = tableView.dequeueReusableCell(withIdentifier: CELL_INFO, for: indexPath)
+        
+        defaultCell.textLabel?.text = "\(meals.count) searches"
+       
         
         if meals.isEmpty{
             infoCell.textLabel?.text = "Not what you were looking for ? \n Tap to add a new meal"
-        }else{
-            infoCell.textLabel?.text = "\(meals.count) searches"
+            infoCell.selectionStyle = .default
+            return infoCell
         }
-        return infoCell
+        
+        return defaultCell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -95,25 +100,37 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+        if indexPath.section == SECTION_MEALS{
+            return true
+        }
+        
+        return false
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        
+        
+        
+        if editingStyle == .delete && indexPath.section == SECTION_MEALS {
+            tableView.performBatchUpdates({
+                self.meals.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+                self.tableView.reloadSections([SECTION_ADD_MEAL], with: .automatic)
+                self.tableView.reloadData()
+            }, completion: nil)
+        }
+        
     }
-    */
+    
+    
+   
+    
 
     /*
     // Override to support rearranging the table view.

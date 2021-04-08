@@ -9,13 +9,27 @@ import UIKit
 
 class EditInstructionsViewController: UIViewController {
 
+    @IBOutlet weak var editInstructionsTextView: UITextView!
+    
+    
+    
+    var delegate: EditInstructionsDelegate?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
-
+    @IBAction func onSavePressed(_ sender: UIBarButtonItem) {
+        
+        if let instructionsText = editInstructionsTextView.text{
+            delegate?.editInstructions(instructions: instructionsText)
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -27,3 +41,9 @@ class EditInstructionsViewController: UIViewController {
     */
 
 }
+
+
+protocol EditInstructionsDelegate{
+    func editInstructions(instructions: String)
+}
+

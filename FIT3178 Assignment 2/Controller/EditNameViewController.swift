@@ -9,11 +9,28 @@ import UIKit
 
 class EditNameViewController: UIViewController {
 
+    @IBOutlet weak var editNameTextField: UITextField!
+    
+    @IBAction func onSavePressed(_ sender: UIBarButtonItem) {
+        
+        if let nameText = editNameTextField.text{
+            delegate?.editName(name: nameText)
+            print(nameText)
+            navigationController?.popViewController(animated: true)
+        }
+        
+    }
+    
+    
+    var delegate: EditNameDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
+    
+    
+    
+    
     
 
     /*
@@ -26,4 +43,8 @@ class EditNameViewController: UIViewController {
     }
     */
 
+}
+
+protocol EditNameDelegate{
+    func editName(name: String)
 }
