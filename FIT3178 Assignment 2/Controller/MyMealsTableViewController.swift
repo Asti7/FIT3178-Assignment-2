@@ -62,6 +62,11 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
     }
     
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    
      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == SECTION_MEALS{
             let  mealCell = tableView.dequeueReusableCell(withIdentifier: CELL_MEAL, for: indexPath)
@@ -97,9 +102,7 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
     
     
      // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {        
         if editingStyle == .delete && indexPath.section == SECTION_MEALS {
             tableView.performBatchUpdates({
                 self.myMeals.remove(at: indexPath.row)
@@ -133,12 +136,14 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-        if segue.identifier == "goToSearchMealsScreen"{
-            let destination = segue.destination as! SearchMealsTableViewController
-            destination.delegate = self
+        if segue.identifier == "goToMealDetailScreen"{
+            let destination = segue.destination as! MealDetailTableViewController
+            
+            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell){
+                destination.mealName = myMeals[indexPath.row].name
+                destination.instructions = myMeals[indexPath.row].instructions
+            }
         }
-     // Pass the selected object to the new view controller.
      }
      
     

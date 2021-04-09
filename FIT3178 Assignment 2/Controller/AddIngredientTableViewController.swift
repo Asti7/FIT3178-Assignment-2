@@ -129,8 +129,6 @@ class AddIngredientTableViewController: UITableViewController {
                 destination.ingredientTitle = ingredients[indexPath.row].name
             }
         }
-        
-        
     }
     
 

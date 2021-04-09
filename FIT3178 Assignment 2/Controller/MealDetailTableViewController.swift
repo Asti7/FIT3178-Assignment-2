@@ -1,13 +1,16 @@
 //
-//  CreateNewMealTableViewController.swift
+//  MealDetailTableViewController.swift
 //  FIT3178 Assignment 2
 //
-//  Created by Astitva  on 8/4/21.
+//  Created by Astitva  on 9/4/21.
 //
 
 import UIKit
 
-class CreateNewMealTableViewController: UITableViewController, EditNameDelegate, EditInstructionsDelegate, AddIngredientDelegate {
+class MealDetailTableViewController: UITableViewController, EditNameDelegate,EditInstructionsDelegate{
+    var instructions: String?
+    var mealName: String?
+    
     
     let SECION_MEAL_NAME = 0
     let SECTION_INSTRUCTIONS = 1
@@ -23,13 +26,14 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = mealName
         
     }
-    
     
     func editName(name: String) {
         let cell = tableView.cellForRow(at: IndexPath(row: 0, section: SECION_MEAL_NAME))
         cell?.textLabel?.text = name
+        navigationItem.title = name
     }
     
     
@@ -38,18 +42,6 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         cell?.textLabel?.text = instructions
     }
     
-    
-    func addIngredient(ingredient: Ingredient, measurement: String) {
-    
-        tableView.performBatchUpdates({
-            self.ingredients.append([ingredient,measurement])
-            self.tableView.insertRows(at: [IndexPath(row: ingredients.count - 1, section: SECTION_INGREDIENTS)], with: .automatic)
-            self.tableView.reloadData()
-        }, completion: nil)
-    
-    }
-
- 
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -93,13 +85,13 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         
         if indexPath.section == SECION_MEAL_NAME{
             let mealNameCell = tableView.dequeueReusableCell(withIdentifier: "mealNameCell", for: indexPath)
-            mealNameCell.textLabel?.text = "Tap to enter meal name"
+            mealNameCell.textLabel?.text = mealName
             return mealNameCell
         }
         
         if indexPath.section == SECTION_INSTRUCTIONS{
             let instructionCell = tableView.dequeueReusableCell(withIdentifier: "instructionCell", for: indexPath)
-            instructionCell.textLabel?.text = "Tap to enter meal instruction"
+            instructionCell.textLabel?.text = instructions
             return instructionCell
         }
         
@@ -125,21 +117,21 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      
+        
     }
     
     
     
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     return true
-     }
+    // Override to support conditional editing of the table view.
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
     
-
     
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete && indexPath.section == SECTION_INGREDIENTS {
             tableView.performBatchUpdates({
                 self.ingredients.remove(at: indexPath.row)
@@ -147,9 +139,9 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
                 self.tableView.reloadData()
             }, completion: nil)
         }
-     
-     }
-     
+        
+    }
+    
     
     /*
      // Override to support rearranging the table view.
@@ -167,10 +159,10 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
      */
     
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "goToEditNameScreen"{
             let destination = segue.destination as! EditNameViewController
@@ -178,9 +170,12 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         }else if segue.identifier == "goToEditInstructionScreen"{
             let destination = segue.destination as! EditInstructionsViewController
             destination.delegate = self
-        }else if segue.identifier == "goToAddIngredientScreen"{
-            let destination = segue.destination as! AddIngredientTableViewController
-            destination.delegate = self
+            //        }else if segue.identifier == "goToAddIngredientScreen"{
+            //            let destination = segue.destination as! AddIngredientTableViewController
+            //            destination.delegate = self
+            //        }
         }
     }
+    
+    
 }

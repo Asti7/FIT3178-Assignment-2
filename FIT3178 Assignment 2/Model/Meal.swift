@@ -18,7 +18,6 @@ class Meal: NSObject {
         self.name = name
         self.instructions = instructions
         self.ingredients = ingredients
-        
     }
     
 }
