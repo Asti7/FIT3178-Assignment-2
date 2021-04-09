@@ -9,6 +9,12 @@ import UIKit
 
 class CreateNewMealTableViewController: UITableViewController, EditNameDelegate, EditInstructionsDelegate, AddIngredientDelegate {
     
+    
+    
+    var mealName: String = "Create New Meal"
+    var mealInstructions:String?
+    
+    
     let SECION_MEAL_NAME = 0
     let SECTION_INSTRUCTIONS = 1
     let SECTION_INGREDIENTS = 2
@@ -23,13 +29,15 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = mealName
+
     }
     
     
     func editName(name: String) {
         let cell = tableView.cellForRow(at: IndexPath(row: 0, section: SECION_MEAL_NAME))
         cell?.textLabel?.text = name
+        navigationItem.title = name
     }
     
     
@@ -93,13 +101,13 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         
         if indexPath.section == SECION_MEAL_NAME{
             let mealNameCell = tableView.dequeueReusableCell(withIdentifier: "mealNameCell", for: indexPath)
-            mealNameCell.textLabel?.text = "Tap to enter meal name"
+            mealNameCell.textLabel?.text = mealName
             return mealNameCell
         }
         
         if indexPath.section == SECTION_INSTRUCTIONS{
             let instructionCell = tableView.dequeueReusableCell(withIdentifier: "instructionCell", for: indexPath)
-            instructionCell.textLabel?.text = "Tap to enter meal instruction"
+            instructionCell.textLabel?.text = mealInstructions
             return instructionCell
         }
         

@@ -136,14 +136,17 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "goToMealDetailScreen"{
-            let destination = segue.destination as! MealDetailTableViewController
+            let destination = segue.destination as! CreateNewMealTableViewController
             
             if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell){
                 destination.mealName = myMeals[indexPath.row].name
-                destination.instructions = myMeals[indexPath.row].instructions
+                destination.mealInstructions = myMeals[indexPath.row].instructions
             }
+            
         }
+        
      }
      
     
