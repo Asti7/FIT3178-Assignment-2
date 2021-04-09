@@ -127,7 +127,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Diz-DK-m3Y" kind="show" id="XFj-mg-khl"/>
+                                    <segue destination="Diz-DK-m3Y" kind="show" identifier="goToCreateNewMealScreen" id="XFj-mg-khl"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -423,7 +423,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="dRw-vH-m4K"/>
+        <segue reference="XFj-mg-khl"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">

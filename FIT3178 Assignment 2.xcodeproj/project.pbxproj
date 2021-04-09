@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E530F55262107AA0039A45D /* Assignment2-DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1E530F53262107AA0039A45D /* Assignment2-DataModel.xcdatamodeld */; };
 		1E5E568A261EB4EE006B8870 /* CreateNewMealTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E5689261EB4EE006B8870 /* CreateNewMealTableViewController.swift */; };
 		1E90063B261C56AE007D0DAB /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90063A261C56AE007D0DAB /* Meal.swift */; };
 		1E90063E261C577E007D0DAB /* IngredientMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90063D261C577E007D0DAB /* IngredientMeasurement.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E530F54262107AA0039A45D /* Assignment2-DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Assignment2-DataModel.xcdatamodel"; sourceTree = "<group>"; };
 		1E5E5689261EB4EE006B8870 /* CreateNewMealTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewMealTableViewController.swift; sourceTree = "<group>"; };
 		1E90063A261C56AE007D0DAB /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		1E90063D261C577E007D0DAB /* IngredientMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientMeasurement.swift; sourceTree = "<group>"; };
@@ -55,6 +57,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E530F4C262059B50039A45D /* Database  */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Database ";
+			sourceTree = "<group>";
+		};
+		1E530F4D262059C20039A45D /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				1E530F53262107AA0039A45D /* Assignment2-DataModel.xcdatamodeld */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
 		1E900634261C566B007D0DAB /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +115,8 @@
 		1EE9781F261ACFB400D07535 /* FIT3178 Assignment 2 */ = {
 			isa = PBXGroup;
 			children = (
+				1E530F4D262059C20039A45D /* DataModel */,
+				1E530F4C262059B50039A45D /* Database  */,
 				1E900634261C566B007D0DAB /* Model */,
 				1E900643261C5D01007D0DAB /* Controller */,
 				1EE97820261ACFB400D07535 /* AppDelegate.swift */,
@@ -181,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E90065C261C9DE1007D0DAB /* EditNameViewController.swift in Sources */,
+				1E530F55262107AA0039A45D /* Assignment2-DataModel.xcdatamodeld in Sources */,
 				1E90063B261C56AE007D0DAB /* Meal.swift in Sources */,
 				1E900666261CAB3F007D0DAB /* IngredientDetailViewController.swift in Sources */,
 				1E90063E261C577E007D0DAB /* IngredientMeasurement.swift in Sources */,
@@ -393,6 +413,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1E530F53262107AA0039A45D /* Assignment2-DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1E530F54262107AA0039A45D /* Assignment2-DataModel.xcdatamodel */,
+			);
+			currentVersion = 1E530F54262107AA0039A45D /* Assignment2-DataModel.xcdatamodel */;
+			path = "Assignment2-DataModel.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1EE97815261ACFB400D07535 /* Project object */;
 }

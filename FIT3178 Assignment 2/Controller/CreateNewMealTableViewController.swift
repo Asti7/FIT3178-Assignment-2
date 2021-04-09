@@ -11,7 +11,9 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
     
     
-    var mealName: String = "Create New Meal"
+    var screenTitle:String?
+    
+    var mealName: String?
     var mealInstructions:String?
     
     
@@ -29,8 +31,7 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = mealName
-
+        navigationItem.title = screenTitle
     }
     
     
@@ -48,7 +49,6 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
     
     func addIngredient(ingredient: Ingredient, measurement: String) {
-    
         tableView.performBatchUpdates({
             self.ingredients.append([ingredient,measurement])
             self.tableView.insertRows(at: [IndexPath(row: ingredients.count - 1, section: SECTION_INGREDIENTS)], with: .automatic)

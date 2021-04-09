@@ -10,8 +10,6 @@ import UIKit
 class MyMealsTableViewController: UITableViewController, AddMealDelegate {
     
     
-    
-    
     let SECTION_MEALS = 0
     let SECTION_INFO = 1
     let CELL_MEAL = "mealCell"
@@ -143,8 +141,12 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
             if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell){
                 destination.mealName = myMeals[indexPath.row].name
                 destination.mealInstructions = myMeals[indexPath.row].instructions
+                destination.screenTitle = myMeals[indexPath.row].name
             }
             
+        }else if segue.identifier == "goToSearchMealsScreen"{
+            let destination = segue.destination as! SearchMealsTableViewController
+            destination.delegate = self
         }
         
      }
