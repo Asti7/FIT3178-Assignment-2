@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1E530F55262107AA0039A45D /* Assignment2-DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1E530F53262107AA0039A45D /* Assignment2-DataModel.xcdatamodeld */; };
+		1E530F5826210DBC0039A45D /* DatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E530F5726210DBC0039A45D /* DatabaseProtocol.swift */; };
+		1E530F5B26210E630039A45D /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E530F5A26210E630039A45D /* MulticastDelegate.swift */; };
 		1E5E568A261EB4EE006B8870 /* CreateNewMealTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5E5689261EB4EE006B8870 /* CreateNewMealTableViewController.swift */; };
 		1E90063B261C56AE007D0DAB /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90063A261C56AE007D0DAB /* Meal.swift */; };
 		1E90063E261C577E007D0DAB /* IngredientMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90063D261C577E007D0DAB /* IngredientMeasurement.swift */; };
@@ -27,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		1E530F54262107AA0039A45D /* Assignment2-DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Assignment2-DataModel.xcdatamodel"; sourceTree = "<group>"; };
+		1E530F5726210DBC0039A45D /* DatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProtocol.swift; sourceTree = "<group>"; };
+		1E530F5A26210E630039A45D /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		1E5E5689261EB4EE006B8870 /* CreateNewMealTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewMealTableViewController.swift; sourceTree = "<group>"; };
 		1E90063A261C56AE007D0DAB /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		1E90063D261C577E007D0DAB /* IngredientMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientMeasurement.swift; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 		1E530F4C262059B50039A45D /* Database  */ = {
 			isa = PBXGroup;
 			children = (
+				1E530F5A26210E630039A45D /* MulticastDelegate.swift */,
+				1E530F5726210DBC0039A45D /* DatabaseProtocol.swift */,
 			);
 			path = "Database ";
 			sourceTree = "<group>";
@@ -201,10 +207,12 @@
 			files = (
 				1E90065C261C9DE1007D0DAB /* EditNameViewController.swift in Sources */,
 				1E530F55262107AA0039A45D /* Assignment2-DataModel.xcdatamodeld in Sources */,
+				1E530F5B26210E630039A45D /* MulticastDelegate.swift in Sources */,
 				1E90063B261C56AE007D0DAB /* Meal.swift in Sources */,
 				1E900666261CAB3F007D0DAB /* IngredientDetailViewController.swift in Sources */,
 				1E90063E261C577E007D0DAB /* IngredientMeasurement.swift in Sources */,
 				1E900663261C9E17007D0DAB /* AddIngredientTableViewController.swift in Sources */,
+				1E530F5826210DBC0039A45D /* DatabaseProtocol.swift in Sources */,
 				1E900641261C585B007D0DAB /* Ingredient.swift in Sources */,
 				1E900646261C5E2B007D0DAB /* MyMealsTableViewController.swift in Sources */,
 				1EE97821261ACFB400D07535 /* AppDelegate.swift in Sources */,

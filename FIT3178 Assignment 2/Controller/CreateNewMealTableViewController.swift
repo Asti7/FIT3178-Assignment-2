@@ -7,9 +7,7 @@
 
 import UIKit
 
-class CreateNewMealTableViewController: UITableViewController, EditNameDelegate, EditInstructionsDelegate, AddIngredientDelegate {
-    
-    
+class CreateNewMealTableViewController: UITableViewController, EditNameDelegate, EditInstructionsDelegate, AddIngredientMeasurementDelegate {
     
     var screenTitle:String?
     
@@ -19,15 +17,18 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
     let SECION_MEAL_NAME = 0
     let SECTION_INSTRUCTIONS = 1
-    let SECTION_INGREDIENTS = 2
+    let SECTION_INGREDIENT_MEASUREMENTS = 2
     let SECTION_ADD_INGREDIENT = 3
-    
-    var ingredients =  [
-        [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"), "23" ],
-        [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"), "23" ],
-        [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"), "23" ],
-        [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"), "23" ]
+
+    var ingredientMeasurement = [
+        IngredientMeasurement(name: "Apple", quantity: "7"),
+        IngredientMeasurement(name: "Apple", quantity: "7"),
+        IngredientMeasurement(name: "Apple", quantity: "7"),
+        IngredientMeasurement(name: "Apple", quantity: "7"),
+        IngredientMeasurement(name: "Apple", quantity: "7")
     ]
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,10 +49,10 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     }
     
     
-    func addIngredient(ingredient: Ingredient, measurement: String) {
+    func addIngredientMeasurement(ingredient: Ingredient, measurement: String) {
         tableView.performBatchUpdates({
-            self.ingredients.append([ingredient,measurement])
-            self.tableView.insertRows(at: [IndexPath(row: ingredients.count - 1, section: SECTION_INGREDIENTS)], with: .automatic)
+            self.ingredientMeasurement.append(IngredientMeasurement(name: ingredient.name, quantity: measurement))
+            self.tableView.insertRows(at: [IndexPath(row: ingredientMeasurement.count - 1, section: SECTION_INGREDIENT_MEASUREMENTS)], with: .automatic)
             self.tableView.reloadData()
         }, completion: nil)
     
@@ -72,8 +73,8 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
             return 1
         case SECTION_INSTRUCTIONS:
             return 1
-        case SECTION_INGREDIENTS:
-            return ingredients.count
+        case SECTION_INGREDIENT_MEASUREMENTS:
+            return ingredientMeasurement.count
         case SECTION_ADD_INGREDIENT:
             return 1
         default:
@@ -90,7 +91,7 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
             return "MEAL NAME"
         case SECTION_INSTRUCTIONS:
             return "INSTRUCTIONS"
-        case SECTION_INGREDIENTS:
+        case SECTION_INGREDIENT_MEASUREMENTS:
             return "INGREDIENTS"
         default:
             return ""
@@ -111,10 +112,10 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
             return instructionCell
         }
         
-        if indexPath.section == SECTION_INGREDIENTS{
+        if indexPath.section == SECTION_INGREDIENT_MEASUREMENTS{
             let ingredientCell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath)
-            ingredientCell.textLabel?.text = (ingredients[indexPath.row][0] as? Ingredient)?.name
-            ingredientCell.detailTextLabel?.text = ingredients[indexPath.row][1] as? String
+            ingredientCell.textLabel?.text = ingredientMeasurement[indexPath.row].name
+            ingredientCell.detailTextLabel?.text = ingredientMeasurement[indexPath.row].quantity
             return ingredientCell
         }
         
@@ -148,9 +149,9 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
      // Override to support editing the table view.
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete && indexPath.section == SECTION_INGREDIENTS {
+        if editingStyle == .delete && indexPath.section == SECTION_INGREDIENT_MEASUREMENTS {
             tableView.performBatchUpdates({
-                self.ingredients.remove(at: indexPath.row)
+                self.ingredientMeasurement.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .fade)
                 self.tableView.reloadData()
             }, completion: nil)

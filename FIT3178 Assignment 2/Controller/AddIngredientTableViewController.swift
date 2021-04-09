@@ -19,7 +19,7 @@ class AddIngredientTableViewController: UITableViewController {
         Ingredient(name: "Apple Pie Vanilla Ice Cream ", ingredientDescription: "Lorem ipsum")
     ]
 
-    var delegate: AddIngredientDelegate?
+    var delegate: AddIngredientMeasurementDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +71,7 @@ class AddIngredientTableViewController: UITableViewController {
                 if measurement.isEmpty{
                     self.present(emptyDialouge, animated: true, completion: nil)
                 }else{
-                    self.delegate?.addIngredient(ingredient: self.ingredients[indexPath.row],measurement: measurement)
+                    self.delegate?.addIngredientMeasurement(ingredient: self.ingredients[indexPath.row],measurement: measurement)
                     self.navigationController?.popViewController(animated: true)
                 }
             }
@@ -134,6 +134,6 @@ class AddIngredientTableViewController: UITableViewController {
 
 }
 
-protocol AddIngredientDelegate{
-    func addIngredient(ingredient: Ingredient, measurement: String)
+protocol AddIngredientMeasurementDelegate{
+    func addIngredientMeasurement(ingredient: Ingredient, measurement: String)
 }
