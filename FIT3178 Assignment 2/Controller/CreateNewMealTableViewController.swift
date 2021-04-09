@@ -8,10 +8,6 @@
 import UIKit
 
 class CreateNewMealTableViewController: UITableViewController, EditNameDelegate, EditInstructionsDelegate, AddIngredientDelegate {
-   
-    
-    
-       
     
     let SECION_MEAL_NAME = 0
     let SECTION_INSTRUCTIONS = 1
@@ -20,7 +16,12 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     
     
     
-    var ingredients:[Ingredient] = [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"),Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"),Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum")]
+    var ingredients =  [
+        [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"), "23" ],
+        [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"), "23" ],
+        [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"), "23" ],
+        [Ingredient(name: "Apple", ingredientDescription: "Lorem ipsum"), "23" ]
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,15 +41,17 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     }
     
     
-    func addIngredient(ingredient: Ingredient) {
+    func addIngredient(ingredient: Ingredient, measurement: String) {
+    
         tableView.performBatchUpdates({
-            self.ingredients.append(ingredient)
+            self.ingredients.append([ingredient,measurement])
             self.tableView.insertRows(at: [IndexPath(row: ingredients.count - 1, section: SECTION_INGREDIENTS)], with: .automatic)
             self.tableView.reloadData()
         }, completion: nil)
+    
     }
-    
-    
+
+ 
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -104,7 +107,8 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         
         if indexPath.section == SECTION_INGREDIENTS{
             let ingredientCell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath)
-            ingredientCell.textLabel?.text = ingredients[indexPath.row].name
+            ingredientCell.textLabel?.text = (ingredients[indexPath.row][0] as? Ingredient)?.name
+            ingredientCell.detailTextLabel?.text = ingredients[indexPath.row][1] as? String
             return ingredientCell
         }
         

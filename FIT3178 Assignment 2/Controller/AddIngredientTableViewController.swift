@@ -21,33 +21,6 @@ class AddIngredientTableViewController: UITableViewController {
 
     var delegate: AddIngredientDelegate?
     
-    func displayMessage(ingredient: String){
-        let dialouge = UIAlertController(title: "Add measurement", message: "Enter measurement for \(ingredient)", preferredStyle: .alert)
-        
-        let emptyDialouge = UIAlertController(title: "Empty Measurement", message: "You must enter a measurement for \(ingredient).", preferredStyle: .alert)
-        emptyDialouge.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        
-        dialouge.addTextField { (textField) in
-            textField.placeholder = "Measurement"
-        }
-        dialouge.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        dialouge.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak dialouge](_) in
-            
-            guard let textFields = dialouge?.textFields?[0] else{
-                return
-            }
-            if let measurement = textFields.text{
-                print(measurement)
-                self.navigationController?.popViewController(animated: true)
-                if measurement.isEmpty{
-                    self.present(emptyDialouge, animated: true, completion: nil)
-                }
-            }
-        }))
-        self.present(dialouge, animated: true, completion: nil)
-    }
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -78,9 +51,32 @@ class AddIngredientTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let ingredient = ingredients[indexPath.row].name
-        delegate?.addIngredient(ingredient: ingredients[indexPath.row])
-        displayMessage(ingredient: ingredient)
         
+        let dialouge = UIAlertController(title: "Add measurement", message: "Enter measurement for \(ingredient)", preferredStyle: .alert)
+        
+        let emptyDialouge = UIAlertController(title: "Empty Measurement", message: "You must enter a measurement for \(ingredient).", preferredStyle: .alert)
+        emptyDialouge.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        
+        dialouge.addTextField { (textField) in
+            textField.placeholder = "Measurement"
+        }
+        dialouge.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        dialouge.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak dialouge](_) in
+            
+            guard let textFields = dialouge?.textFields?[0] else{
+                return
+            }
+            if let measurement = textFields.text{
+                print(measurement)
+                if measurement.isEmpty{
+                    self.present(emptyDialouge, animated: true, completion: nil)
+                }else{
+                    self.delegate?.addIngredient(ingredient: self.ingredients[indexPath.row],measurement: measurement)
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }))
+        self.present(dialouge, animated: true, completion: nil)
     }
     
 
@@ -141,5 +137,5 @@ class AddIngredientTableViewController: UITableViewController {
 }
 
 protocol AddIngredientDelegate{
-    func addIngredient(ingredient: Ingredient)
+    func addIngredient(ingredient: Ingredient, measurement: String)
 }
