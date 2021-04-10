@@ -11,23 +11,25 @@ class EditInstructionsViewController: UIViewController {
 
     @IBOutlet weak var editInstructionsTextView: UITextView!
     
+    var databaseController: DatabaseProtocol!
+    var meal: Meal!
     
-    
-    var delegate: EditInstructionsDelegate?
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        editInstructionsTextView.text = meal.instructions
     }
     
     @IBAction func onSavePressed(_ sender: UIBarButtonItem) {
         
-        if let instructionsText = editInstructionsTextView.text{
-            delegate?.editInstructions(instructions: instructionsText)
+        if editInstructionsTextView.text != "" {
+            let instructions =  editInstructionsTextView.text!
+            let _ = databaseController.editMealInstructions(meal: meal, instructions: instructions)
             navigationController?.popViewController(animated: true)
+            return
         }
+        
+        displayMessage(title: "Missing Field", message: "Instructions for the meal should be provided")
     }
     
     /*
@@ -40,10 +42,14 @@ class EditInstructionsViewController: UIViewController {
     }
     */
 
-}
-
-
-protocol EditInstructionsDelegate{
-    func editInstructions(instructions: String)
+    
+    
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message,
+        preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
+        UIAlertAction.Style.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 

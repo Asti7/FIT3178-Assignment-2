@@ -10,24 +10,25 @@ import UIKit
 class EditNameViewController: UIViewController {
 
     @IBOutlet weak var editNameTextField: UITextField!
+    var delegate: ChangeTitleNameDelegate?
+    var databaseController: DatabaseProtocol!
+    var meal: Meal!
     
-    @IBAction func onSavePressed(_ sender: UIBarButtonItem) {
-        
-        if let nameText = editNameTextField.text{
-            delegate?.editName(name: nameText)
-            print(nameText)
-            navigationController?.popViewController(animated: true)
-        }
-        
-    }
-    
-    
-    var delegate: EditNameDelegate?
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    
+    @IBAction func onSavePressed(_ sender: UIBarButtonItem) {
+        if editNameTextField.text != "" {
+            let name =  editNameTextField.text!
+            let _ = databaseController.editMealName(meal: meal!, name: name)
+            delegate?.changeTitle(name: name)
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        displayMessage(title: "Missing field", message: "A name must be provided for the meal")
+    }
     
     
     
@@ -42,9 +43,16 @@ class EditNameViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message,
+        preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
+        UIAlertAction.Style.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
 
 }
 
-protocol EditNameDelegate{
-    func editName(name: String)
+protocol ChangeTitleNameDelegate {
+    func changeTitle(name:String)
 }

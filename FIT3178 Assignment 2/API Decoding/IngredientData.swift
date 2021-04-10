@@ -9,14 +9,23 @@ import Foundation
 import UIKit
 
 class IngredientData: NSObject, Decodable {
-    var name:String
+    var name: String
+    var ingreDescription: String
     
     private enum IngredientKeys: String, CodingKey {
-        case strIngredient1
-    }
-    required init(from decoder: Decoder) throws {
-        let ingredientContainer = try decoder.container(keyedBy: IngredientKeys.self)
-        name = try ingredientContainer.decode(String.self, forKey: .strIngredient1)
+        case strIngredient
+        case strDescription
     }
     
+    
+    required init(from decoder: Decoder) throws {
+        let ingredientContainer = try decoder.container(keyedBy: IngredientKeys.self)
+        self.name = try ingredientContainer.decode(String.self, forKey: .strIngredient)
+        
+        if let description = try ingredientContainer.decodeIfPresent(String.self, forKey: .strDescription){
+            self.ingreDescription = description
+        }else{
+            self.ingreDescription = " "
+        }
+    }
 }

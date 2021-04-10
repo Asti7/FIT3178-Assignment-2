@@ -30,7 +30,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jgr-Z7-a5c">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jgr-Z7-a5c">
                                             <rect key="frame" x="15.999999999999996" y="31.333333333333332" width="32.666666666666664" height="14.333333333333334"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -94,13 +94,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ldn-LF-oxB">
-                                            <rect key="frame" x="16" y="8.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <rect key="frame" x="15.999999999999996" y="8.9999999999999982" width="36.666666666666664" height="20.333333333333332"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Wr-Jt-Sya">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Wr-Jt-Sya">
                                             <rect key="frame" x="15.999999999999996" y="31.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -259,7 +259,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Create New Meal" largeTitleDisplayMode="never" id="7T2-4n-22A">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="wze-8L-cb4"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="wze-8L-cb4">
+                            <connections>
+                                <action selector="saveMeal:" destination="Diz-DK-m3Y" id="Kyy-1L-Gsc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5bB-aj-nE7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -274,15 +278,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="edit name " textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zud-Sg-olk">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="edit name " textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zud-Sg-olk">
                                 <rect key="frame" x="16" y="136" width="338" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="aCJ-qu-fQY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="aCJ-qu-fQY" firstAttribute="trailing" secondItem="zud-Sg-olk" secondAttribute="trailing" constant="21" id="2UP-lT-Ooh"/>
+                            <constraint firstItem="zud-Sg-olk" firstAttribute="leading" secondItem="aCJ-qu-fQY" secondAttribute="leading" constant="16" id="8Uw-kd-Rte"/>
+                            <constraint firstItem="zud-Sg-olk" firstAttribute="top" secondItem="aCJ-qu-fQY" secondAttribute="top" constant="48" id="GJc-eu-tps"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Edit Name" id="amS-jE-ATn">
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="5H3-uF-Fen">
@@ -307,9 +315,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U2s-MO-Gif">
-                                <rect key="frame" x="16" y="132" width="343" height="422"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U2s-MO-Gif">
+                                <rect key="frame" x="16" y="124" width="343" height="420"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -318,6 +325,12 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kR2-Oo-MVU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="U2s-MO-Gif" firstAttribute="leading" secondItem="kR2-Oo-MVU" secondAttribute="leading" constant="16" id="GJT-Ai-cdN"/>
+                            <constraint firstItem="kR2-Oo-MVU" firstAttribute="trailing" secondItem="U2s-MO-Gif" secondAttribute="trailing" constant="16" id="Hqw-dt-arX"/>
+                            <constraint firstItem="kR2-Oo-MVU" firstAttribute="bottom" secondItem="U2s-MO-Gif" secondAttribute="bottom" constant="234" id="Smj-Tc-dMX"/>
+                            <constraint firstItem="U2s-MO-Gif" firstAttribute="top" secondItem="kR2-Oo-MVU" secondAttribute="top" constant="36" id="brX-ag-zJw"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Edit Instructions" id="xqw-vs-OEH">
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="dcR-Sr-KJT">
@@ -382,9 +395,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ypi-ho-HaA">
-                                <rect key="frame" x="16" y="124" width="343" height="463"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ypi-ho-HaA">
+                                <rect key="frame" x="36" y="118" width="304" height="461"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -393,6 +405,12 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yRJ-TX-HaK"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Ypi-ho-HaA" firstAttribute="leading" secondItem="yRJ-TX-HaK" secondAttribute="leading" constant="36" id="67F-Sa-sdd"/>
+                            <constraint firstItem="Ypi-ho-HaA" firstAttribute="top" secondItem="yRJ-TX-HaK" secondAttribute="top" constant="30" id="VDl-6L-0v3"/>
+                            <constraint firstItem="yRJ-TX-HaK" firstAttribute="bottom" secondItem="Ypi-ho-HaA" secondAttribute="bottom" constant="199" id="aab-LL-YNF"/>
+                            <constraint firstItem="yRJ-TX-HaK" firstAttribute="trailing" secondItem="Ypi-ho-HaA" secondAttribute="trailing" constant="35" id="vtw-Am-XuF"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Ingredient" id="VZA-Wf-qx0"/>
                     <connections>
@@ -423,7 +441,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="XFj-mg-khl"/>
+        <segue reference="dRw-vH-m4K"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">

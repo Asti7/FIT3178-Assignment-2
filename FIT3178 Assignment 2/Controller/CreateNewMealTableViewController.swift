@@ -7,52 +7,60 @@
 
 import UIKit
 
-class CreateNewMealTableViewController: UITableViewController, EditNameDelegate, EditInstructionsDelegate, AddIngredientMeasurementDelegate {
-    
-    var screenTitle:String?
-    
-    var mealName: String?
-    var mealInstructions:String?
-    
-    
+class CreateNewMealTableViewController: UITableViewController, DatabaseListener, ChangeTitleNameDelegate {
+
     let SECION_MEAL_NAME = 0
     let SECTION_INSTRUCTIONS = 1
     let SECTION_INGREDIENT_MEASUREMENTS = 2
     let SECTION_ADD_INGREDIENT = 3
 
-    var ingredientMeasurement = [
-       
-    ]
+    
+    var clickedMeal: Meal?
     
     
+    weak var databaseController: DatabaseProtocol?
+    var listenerType: ListenerType = .all
+    
+    var usefulIngredients = [IngredientMeasurement]()
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = screenTitle
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        databaseController = appDelegate.databaseController
+        
+        if clickedMeal == nil {
+            self.navigationItem.title = "Create New Meal"
+            clickedMeal = databaseController?.createEmptyMeal()
+        } else {
+            self.navigationItem.title = clickedMeal?.name
+            clickedMeal = databaseController?.editMeal(meal: clickedMeal!)
+        }
+        
+        let ingredients = clickedMeal?.ingredients?.allObjects as! [IngredientMeasurement]
+        
+         usefulIngredients = ingredients.filter { (ingredient) -> Bool in
+            !(ingredient.name == "" || ingredient.quantity == "" || ingredient.name == nil || ingredient.quantity == nil)
+        }
+        
+        print(usefulIngredients.count)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+         databaseController?.addListener(listener: self)
+     }
+
+     override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         databaseController?.removeListener(listener: self)
+     }
     
-    func editName(name: String) {
-        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: SECION_MEAL_NAME))
-        cell?.textLabel?.text = name
+    
+    func changeTitle(name: String) {
         navigationItem.title = name
     }
     
-    
-    func editInstructions(instructions: String) {
-        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: SECTION_INSTRUCTIONS))
-        cell?.textLabel?.text = instructions
-    }
-    
-    
-    func addIngredientMeasurement(ingredient: Ingredient, measurement: String) {
-        tableView.performBatchUpdates({
-            self.ingredientMeasurement.append(IngredientMeasurement(name: ingredient.name, quantity: measurement))
-            self.tableView.insertRows(at: [IndexPath(row: ingredientMeasurement.count - 1, section: SECTION_INGREDIENT_MEASUREMENTS)], with: .automatic)
-            self.tableView.reloadData()
-        }, completion: nil)
-    
-    }
 
  
     // MARK: - Table view data source
@@ -65,20 +73,13 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case SECION_MEAL_NAME:
-            return 1
-        case SECTION_INSTRUCTIONS:
-            return 1
         case SECTION_INGREDIENT_MEASUREMENTS:
-            return ingredientMeasurement.count
-        case SECTION_ADD_INGREDIENT:
-            return 1
+            return usefulIngredients.count
         default:
-            return 0
+            return 1
         }
         
     }
-    
     
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -98,20 +99,23 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         
         if indexPath.section == SECION_MEAL_NAME{
             let mealNameCell = tableView.dequeueReusableCell(withIdentifier: "mealNameCell", for: indexPath)
-            mealNameCell.textLabel?.text = mealName
+            
+            mealNameCell.textLabel?.text = clickedMeal?.name ?? "Enter Meal name"
             return mealNameCell
         }
         
         if indexPath.section == SECTION_INSTRUCTIONS{
             let instructionCell = tableView.dequeueReusableCell(withIdentifier: "instructionCell", for: indexPath)
-            instructionCell.textLabel?.text = mealInstructions
+            instructionCell.textLabel?.text = clickedMeal?.instructions ?? "Enter instructions"
             return instructionCell
         }
         
         if indexPath.section == SECTION_INGREDIENT_MEASUREMENTS{
             let ingredientCell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath)
-            ingredientCell.textLabel?.text = ingredientMeasurement[indexPath.row].name
-            ingredientCell.detailTextLabel?.text = ingredientMeasurement[indexPath.row].quantity
+            
+            ingredientCell.textLabel?.text = usefulIngredients[indexPath.row].name
+            ingredientCell.detailTextLabel?.text = usefulIngredients[indexPath.row].quantity
+            
             return ingredientCell
         }
         
@@ -127,50 +131,46 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         return defaultCell
     }
     
-    
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      
-    }
-    
-    
-    
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
      return true
      }
     
-    
-
-    
      // Override to support editing the table view.
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete && indexPath.section == SECTION_INGREDIENT_MEASUREMENTS {
-            tableView.performBatchUpdates({
-                self.ingredientMeasurement.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: .fade)
-                self.tableView.reloadData()
-            }, completion: nil)
+            let mealIngredients = clickedMeal?.ingredients?.allObjects as! [IngredientMeasurement]
+            let ingredient = mealIngredients[indexPath.row] as IngredientMeasurement
+            let _ = databaseController?.editRemoveIngredientMeasurement(meal: clickedMeal!, ingredientMeasurement: ingredient)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
-     
      }
      
+
     
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
     
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
+    @IBAction func saveMeal(_ sender: UIBarButtonItem) {
+        if clickedMeal?.name == nil || clickedMeal?.instructions == nil || clickedMeal?.ingredients?.count == 0 {
+            displayMessage(title: "Missing Fields", message: "A meal must have a name and some ingredients")
+            return
+        }
+        
+        // create a real cocktail in the parent context
+        let _ = databaseController?.editSaveMeal(meal: clickedMeal!)
+        navigationController?.popViewController(animated: true)
+        return
+    }
     
+    
+    
+    
+    func onMyMealsChange(change: DatabaseChange, myMeals: [Meal]) {
+        tableView.reloadData()
+    }
+    
+    func onIngredientsChange(change: DatabaseChange, ingredients: [Ingredient]) {
+    }
+
     
      // MARK: - Navigation
      
@@ -180,12 +180,24 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
         if segue.identifier == "goToEditNameScreen"{
             let destination = segue.destination as! EditNameViewController
             destination.delegate = self
+            destination.meal = self.clickedMeal
+            destination.databaseController = self.databaseController
         }else if segue.identifier == "goToEditInstructionScreen"{
             let destination = segue.destination as! EditInstructionsViewController
-            destination.delegate = self
+            destination.meal = self.clickedMeal
+            destination.databaseController = self.databaseController
         }else if segue.identifier == "goToAddIngredientScreen"{
             let destination = segue.destination as! AddIngredientTableViewController
-            destination.delegate = self
+            destination.meal = self.clickedMeal
+            destination.databaseController = self.databaseController
         }
+    }
+    
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message,
+        preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
+        UIAlertAction.Style.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
 }

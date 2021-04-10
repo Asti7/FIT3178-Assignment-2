@@ -15,17 +15,21 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
     let CELL_MEAL = "mealCell"
     let CELL_INFO = "addMealCell"
     
+    var indicator = UIActivityIndicatorView()
     
-    var delegate: AddMealDelegate?
+    weak var databaseController: DatabaseProtocol?
+    var listenerType: ListenerType = .all
+    var searchedMeals = [MealData]()
     
     
-    var meals: [Meal] = [
+    let REQUEST_STRING = "https://www.themealdb.com/api/json/v1/1/search.php?s="
     
-    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        databaseController = appDelegate.databaseController
         
         // search bar
         let searchController = UISearchController(searchResultsController: nil)
@@ -33,9 +37,56 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
-        
         navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
         
+        indicator.style = UIActivityIndicatorView.Style.medium
+        indicator.center = self.tableView.center
+        self.view.addSubview(indicator)
+    }
+    
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text, searchText.count > 0 else {
+            return;
+        }
+        indicator.startAnimating()
+        indicator.backgroundColor = UIColor.clear
+        searchedMeals.removeAll()
+        tableView.reloadData()
+        URLSession.shared.invalidateAndCancel()
+        requestMeals(mealName: searchText)
+    }
+    
+    
+
+    func requestMeals(mealName: String) {
+        let searchString = REQUEST_STRING + mealName
+        let jsonURL = URL(string: searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+        let task = URLSession.shared.dataTask(with: jsonURL!){(data, response, error) in
+            DispatchQueue.main.async{
+                self.indicator.stopAnimating()
+                self.indicator.hidesWhenStopped = true
+            }
+            
+            if let error = error {
+                print(error)
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                let volumeData = try decoder.decode(VolumeData.self, from: data!)
+                if let books = volumeData.books {
+                    self.searchedMeals.append(contentsOf: books)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+            } catch let err {
+                print(err)
+            }
+        }
+        task.resume()
     }
     
     // MARK: - Table view data source
@@ -47,9 +98,9 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == SECTION_MEALS{
-            return meals.count
+            return searchedMeals.count
         }else if section == SECTION_ADD_MEAL{
-            if meals.isEmpty{
+            if searchedMeals.isEmpty{
                 return 1
             }else{
                 return 0
@@ -64,7 +115,7 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
         
         if indexPath.section == SECTION_MEALS{
             let  mealCell = tableView.dequeueReusableCell(withIdentifier: CELL_MEAL, for: indexPath)
-            let meal = meals[indexPath.row]
+            let meal = searchedMeals[indexPath.row]
             
             mealCell.textLabel?.text = meal.name
             mealCell.detailTextLabel?.text = meal.instructions
@@ -74,10 +125,10 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CELL_INFO, for: indexPath)
         let defaultCell = tableView.dequeueReusableCell(withIdentifier: CELL_INFO, for: indexPath)
         
-        defaultCell.textLabel?.text = "\(meals.count) searches"
+        defaultCell.textLabel?.text = "\(searchedMeals.count) searches"
         
         
-        if meals.isEmpty{
+        if searchedMeals.isEmpty{
             infoCell.textLabel?.text = "Not what you were looking for ? \n Tap to add a new meal"
             infoCell.selectionStyle = .default
             return infoCell
@@ -88,76 +139,43 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
-        if indexPath.section == SECTION_MEALS{
-            delegate?.addMeal(meal: meals[indexPath.row])
-            navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.section == SECTION_MEALS{
-            return true
+        if indexPath.section == SECTION_ADD_MEAL {
+            tableView.deselectRow(at: indexPath, animated: false)
+            return
         }
         
-        return false
-    }
-    
-    
-    
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let selectedMeal = searchedMeals[indexPath.row]
         
-        
-        
-        if editingStyle == .delete && indexPath.section == SECTION_MEALS {
-            tableView.performBatchUpdates({
-                self.meals.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: .fade)
-                self.tableView.reloadSections([SECTION_ADD_MEAL], with: .automatic)
-                self.tableView.reloadData()
-            }, completion: nil)
+        let doesExist = databaseController?.fetchMeal(mealName: selectedMeal.name, mealInstructions: selectedMeal.instructions)
+        if doesExist!.count > 0 {
+            displayMessage(title: "Duplicate Meal", message: "A meal with the same name and instructions already exists in your list")
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
         }
+        
+        // add the cocktail to the database
+        let meal = databaseController?.addMeal(name: searchedMeals[indexPath.row].name, instructions: searchedMeals[indexPath.row].instructions)
+        let ingredients = selectedMeal.ingredients
+        let measurements = selectedMeal.ingredientMeasurement
+        
+        // given the generated cocktail, use the delegate to add ingredients
+        for n in 0...searchedMeals[indexPath.row].ingredients.count - 1 {
+            let measurement = (n >= measurements.count ? "N/A" : measurements[n]) // some ingredients don't have measurements, so replace with n/a if no ingredient provided
+            let _ = databaseController?.addIngredientMeasurement(meal: meal!, ingredientName: ingredients[n], measurement: measurement)
+        }
+        navigationController?.popViewController(animated: false)
+        return
         
     }
-    
-    
-    
-    
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToCreateNewMealScreen"{
-            let destination = segue.destination as! CreateNewMealTableViewController
-            destination.screenTitle = "Create New Meal"
-        }
-     }
-     
-    
-}
 
-
-protocol AddMealDelegate{
-    func addMeal(meal: Meal)
+    func displayMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message,
+        preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
+        UIAlertAction.Style.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+     
+    
 }
 

@@ -24,7 +24,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
 
     override init() {
         // Initialize the core data for parent and child contexts
-        persistentContainer = NSPersistentContainer(name: "LUKEHAEFFNER_A2_iOSPortfolioTasks")
+        persistentContainer = NSPersistentContainer(name: "Assignment2-DataModel")
         persistentContainer.loadPersistentStores(){(description, error) in
             if let error = error {
                 fatalError("Failed to load core data stack: \(error)")
@@ -274,6 +274,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 for ingredients in volumeData.ingredients! {
                     let ingredient = NSEntityDescription.insertNewObject(forEntityName: "Ingredient", into: self.childContext) as! Ingredient
                     ingredient.name = ingredients.name
+                    ingredient.ingredientDescription = ingredients.ingreDescription
                 }
                 DispatchQueue.main.async {
                     self.saveChildContext()

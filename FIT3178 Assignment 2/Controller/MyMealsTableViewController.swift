@@ -7,34 +7,42 @@
 
 import UIKit
 
-class MyMealsTableViewController: UITableViewController, AddMealDelegate {
+class MyMealsTableViewController: UITableViewController, DatabaseListener{
+   
     
     
+
     let SECTION_MEALS = 0
     let SECTION_INFO = 1
     let CELL_MEAL = "mealCell"
     let CELL_INFO = "mealSizeCell"
     
-    var myMeals: [Meal] = [
-      
-    ]
+    
+    
+    
+    var currentMeals: [Meal] = []
+    
+    weak var databaseController: DatabaseProtocol?
+    
+    var listenerType: ListenerType = .all
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    
-    func addMeal(meal: Meal) {
-        tableView.performBatchUpdates({
-            self.myMeals.append(meal)
-            self.tableView.insertRows(at: [IndexPath(row: myMeals.count - 1, section: SECTION_MEALS)], with: .automatic)
-            self.tableView.reloadSections([SECTION_INFO], with: .automatic)
-        }, completion: nil)
         
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        databaseController = appDelegate.databaseController
     }
     
-    
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        databaseController?.addListener(listener: self)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        databaseController?.removeListener(listener: self)
+    }
+
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -45,7 +53,7 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case SECTION_MEALS:
-            return myMeals.count
+            return currentMeals.count
         case SECTION_INFO:
             return 1
         default:
@@ -62,7 +70,7 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == SECTION_MEALS{
             let  mealCell = tableView.dequeueReusableCell(withIdentifier: CELL_MEAL, for: indexPath)
-            let meal = myMeals[indexPath.row]
+            let meal = currentMeals[indexPath.row]
             
             mealCell.textLabel?.text = meal.name
             mealCell.detailTextLabel?.text = meal.instructions
@@ -71,11 +79,11 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
         
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CELL_INFO, for: indexPath)
         
-        if myMeals.isEmpty{
+        if currentMeals.isEmpty{
             infoCell.textLabel?.text = "No stored meals. Click + to add some."
             
         }else{
-            infoCell.textLabel?.text = "\(myMeals.count) stored meal"
+            infoCell.textLabel?.text = "\(currentMeals.count) stored meal"
         }
         
         return infoCell
@@ -91,39 +99,24 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
         return false
      }
      
-    
-    
      // Override to support editing the table view.
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {        
         if editingStyle == .delete && indexPath.section == SECTION_MEALS {
-            tableView.performBatchUpdates({
-                self.myMeals.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: .fade)
-                self.tableView.reloadSections([SECTION_INFO], with: .automatic)
-            }, completion: nil)
+            self.databaseController!.removeMeal(meal: currentMeals[indexPath.row])
         }
-    
      }
     
+    //MARK: - DatabaseListener protocol methods
+    
+    
+    func onMyMealsChange(change: DatabaseChange, myMeals: [Meal]) {
+        currentMeals = myMeals
+        tableView.reloadData()
+    }
+    func onIngredientsChange(change: DatabaseChange, ingredients: [Ingredient]) {
+    }
     
      
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -133,14 +126,9 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
             let destination = segue.destination as! CreateNewMealTableViewController
             
             if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell){
-                destination.mealName = myMeals[indexPath.row].name
-                destination.mealInstructions = myMeals[indexPath.row].instructions
-                destination.screenTitle = myMeals[indexPath.row].name
+                destination.clickedMeal = currentMeals[indexPath.row]
             }
             
-        }else if segue.identifier == "goToSearchMealsScreen"{
-            let destination = segue.destination as! SearchMealsTableViewController
-            destination.delegate = self
         }
         
      }

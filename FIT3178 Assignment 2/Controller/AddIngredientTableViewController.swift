@@ -10,19 +10,16 @@ import UIKit
 class AddIngredientTableViewController: UITableViewController {
 
     
-    var ingredients: [Ingredient] = [
-        Ingredient(name: "Apple", ingredientDescription: "Fruit"),
-        Ingredient(name: "Apple", ingredientDescription: "Fruit"),
-        Ingredient(name: "Apple", ingredientDescription: "Fruit"),
-        Ingredient(name: "Apple", ingredientDescription: "Fruit"),
-        Ingredient(name: "Apple", ingredientDescription: "Fruit"),
-        Ingredient(name: "Apple Pie Vanilla Ice Cream ", ingredientDescription: "Lorem ipsum")
-    ]
-
-    var delegate: AddIngredientMeasurementDelegate?
+    var databaseController: DatabaseProtocol!
+    var meal: Meal!
+    
+    var ingredients:[Ingredient] = []
+    var ingredient: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ingredients = databaseController.fetchAllIngredients()
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -43,18 +40,23 @@ class AddIngredientTableViewController: UITableViewController {
 
         let ingredeint = ingredients[indexPath.row]
         // Configure the cell...
-        
         cell.textLabel?.text = ingredeint.name
-
+        
+        if ingredeint.ingredientDescription == " "{
+            cell.selectionStyle = .none
+            cell.accessoryType = .none
+        }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let ingredient = ingredients[indexPath.row].name
+        ingredient = ingredients[indexPath.row].name
+    
+        let dialouge = UIAlertController(title: "Add measurement",
+                                         message: "Enter measurement for \(ingredient ?? "this ingredient")", preferredStyle: .alert)
         
-        let dialouge = UIAlertController(title: "Add measurement", message: "Enter measurement for \(ingredient)", preferredStyle: .alert)
-        
-        let emptyDialouge = UIAlertController(title: "Empty Measurement", message: "You must enter a measurement for \(ingredient).", preferredStyle: .alert)
+        let emptyDialouge = UIAlertController(title: "Empty Measurement",
+                                              message: "You must enter measurement for \(ingredient ?? "this ingredient").", preferredStyle: .alert)
         emptyDialouge.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
         
         dialouge.addTextField { (textField) in
@@ -67,11 +69,12 @@ class AddIngredientTableViewController: UITableViewController {
                 return
             }
             if let measurement = textFields.text{
-                print(measurement)
+                
                 if measurement.isEmpty{
                     self.present(emptyDialouge, animated: true, completion: nil)
+                    self.tableView.deselectRow(at: indexPath, animated: true)
                 }else{
-                    self.delegate?.addIngredientMeasurement(ingredient: self.ingredients[indexPath.row],measurement: measurement)
+                   let _ =  self.databaseController.editAddIngredientMeasurement(meal: self.meal, ingredientName: self.ingredient!, measurement: measurement)
                     self.navigationController?.popViewController(animated: true)
                 }
             }
@@ -79,42 +82,6 @@ class AddIngredientTableViewController: UITableViewController {
         self.present(dialouge, animated: true, completion: nil)
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
     // MARK: - Navigation
 
@@ -132,8 +99,4 @@ class AddIngredientTableViewController: UITableViewController {
     }
     
 
-}
-
-protocol AddIngredientMeasurementDelegate{
-    func addIngredientMeasurement(ingredient: Ingredient, measurement: String)
 }
