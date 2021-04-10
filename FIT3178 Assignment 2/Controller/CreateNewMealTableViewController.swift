@@ -21,11 +21,7 @@ class CreateNewMealTableViewController: UITableViewController, EditNameDelegate,
     let SECTION_ADD_INGREDIENT = 3
 
     var ingredientMeasurement = [
-        IngredientMeasurement(name: "Apple", quantity: "7"),
-        IngredientMeasurement(name: "Apple", quantity: "7"),
-        IngredientMeasurement(name: "Apple", quantity: "7"),
-        IngredientMeasurement(name: "Apple", quantity: "7"),
-        IngredientMeasurement(name: "Apple", quantity: "7")
+       
     ]
     
     

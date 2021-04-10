@@ -16,13 +16,7 @@ class MyMealsTableViewController: UITableViewController, AddMealDelegate {
     let CELL_INFO = "mealSizeCell"
     
     var myMeals: [Meal] = [
-        
-        Meal("Pizza", "Go to a pizza shop and buy it. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor", []),
-        
-        Meal("Pizza", "Go to a pizza shop and buy it. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor", []),
-        
-        Meal("Pizza", "Go to a pizza shop and buy it. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor", [])
-        
+      
     ]
     
     override func viewDidLoad() {

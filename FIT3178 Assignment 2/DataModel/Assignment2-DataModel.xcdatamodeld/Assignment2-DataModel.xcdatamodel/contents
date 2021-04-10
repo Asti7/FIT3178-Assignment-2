@@ -7,7 +7,7 @@
     <entity name="IngredientMeasurement" representedClassName="IngredientMeasurement" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="quantity" optional="YES" attributeType="String"/>
-        <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meal" inverseName="ingredients" inverseEntity="Meal"/>
+        <relationship name="meals" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Meal" inverseName="ingredients" inverseEntity="Meal"/>
     </entity>
     <entity name="Meal" representedClassName="Meal" syncable="YES">
         <attribute name="instructions" optional="YES" attributeType="String"/>
@@ -15,8 +15,8 @@
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IngredientMeasurement" inverseName="meals" inverseEntity="IngredientMeasurement"/>
     </entity>
     <elements>
-        <element name="Meal" positionX="-345.6122131347656" positionY="-48.13519287109375" width="128" height="88"/>
         <element name="Ingredient" positionX="40.4395751953125" positionY="14.2076416015625" width="128" height="59"/>
-        <element name="IngredientMeasurement" positionX="-47.14434814453125" positionY="167.2611083984375" width="206.713134765625" height="88"/>
+        <element name="IngredientMeasurement" positionX="-76.30682373046875" positionY="241.9608154296875" width="296.9099731445312" height="73"/>
+        <element name="Meal" positionX="-311.2614440917969" positionY="2.063018798828125" width="128" height="88"/>
     </elements>
 </model>
