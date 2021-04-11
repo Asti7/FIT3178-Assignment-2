@@ -8,7 +8,7 @@
 import UIKit
 
 class CreateNewMealTableViewController: UITableViewController, DatabaseListener, ChangeTitleNameDelegate {
-
+        
     let SECION_MEAL_NAME = 0
     let SECTION_INSTRUCTIONS = 1
     let SECTION_INGREDIENT_MEASUREMENTS = 2

@@ -59,7 +59,7 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     
-
+    
     func requestMeals(mealName: String) {
         let searchString = REQUEST_STRING + mealName
         let jsonURL = URL(string: searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
@@ -76,7 +76,29 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
             do {
                 let decoder = JSONDecoder()
                 let volumeData = try decoder.decode(VolumeData.self, from: data!)
+    
                 if let books = volumeData.books {
+                    
+                    for book in books{
+                        var usefulIngredients = [String]()
+                        var usefulIngredientMeasuremets = [String]()
+                        
+                        for item in book.ingredients{
+                            if item != ""{
+                                usefulIngredients.append(item)
+                            }
+                        }
+                        
+                        for item in book.ingredientMeasurement{
+                            if item != ""{
+                                usefulIngredientMeasuremets.append(item)
+                            }
+                        }
+                        
+                        book.ingredients = usefulIngredients
+                        book.ingredientMeasurement = usefulIngredientMeasuremets
+                    }
+                    
                     self.searchedMeals.append(contentsOf: books)
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -167,15 +189,15 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
         return
         
     }
-
+    
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message,
-        preferredStyle: UIAlertController.Style.alert)
+                                                preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style:
-        UIAlertAction.Style.default,handler: nil))
+                                                    UIAlertAction.Style.default,handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
-     
+    
     
 }
 
