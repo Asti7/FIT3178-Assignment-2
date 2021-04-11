@@ -73,15 +73,10 @@ class MealData: NSObject, Decodable {
         let mealContainer = try decoder.container(keyedBy: MealKeys.self)
         name = try mealContainer.decode(String.self, forKey: .strMeal)
         instructions = try mealContainer.decode(String.self, forKey: .strInstructions)
-        
-        
-        
-  
-        
+    
         if let ingredient  = try? mealContainer.decode(String.self, forKey: .strIngredient1) {
             ingredients.append(ingredient)
         }
-        
         
         if let measurement = try? mealContainer.decode(String.self, forKey: .strMeasure1) {
             ingredientMeasurement.append(measurement)

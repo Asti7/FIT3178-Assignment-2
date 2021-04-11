@@ -16,13 +16,9 @@ class CreateNewMealTableViewController: UITableViewController, DatabaseListener,
 
     
     var clickedMeal: Meal?
-    
-    
+        
     weak var databaseController: DatabaseProtocol?
     var listenerType: ListenerType = .all
-    
-    var usefulIngredients = [IngredientMeasurement]()
-   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +33,7 @@ class CreateNewMealTableViewController: UITableViewController, DatabaseListener,
             clickedMeal = databaseController?.editMeal(meal: clickedMeal!)
         }
         
-        let ingredients = clickedMeal?.ingredients?.allObjects as! [IngredientMeasurement]
         
-         usefulIngredients = ingredients.filter { (ingredient) -> Bool in
-            !(ingredient.name == "" || ingredient.quantity == "" || ingredient.name == nil || ingredient.quantity == nil)
-        }
-        
-        print(usefulIngredients.count)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +64,7 @@ class CreateNewMealTableViewController: UITableViewController, DatabaseListener,
         
         switch section {
         case SECTION_INGREDIENT_MEASUREMENTS:
-            return usefulIngredients.count
+            return clickedMeal?.ingredients?.count ?? 1
         default:
             return 1
         }
@@ -113,9 +103,10 @@ class CreateNewMealTableViewController: UITableViewController, DatabaseListener,
         if indexPath.section == SECTION_INGREDIENT_MEASUREMENTS{
             let ingredientCell = tableView.dequeueReusableCell(withIdentifier: "ingredientCell", for: indexPath)
             
-            ingredientCell.textLabel?.text = usefulIngredients[indexPath.row].name
-            ingredientCell.detailTextLabel?.text = usefulIngredients[indexPath.row].quantity
+            ingredientCell.textLabel?.text = (clickedMeal?.ingredients?.allObjects as! [IngredientMeasurement])[indexPath.row].name
             
+            ingredientCell.detailTextLabel?.text = (clickedMeal?.ingredients?.allObjects as! [IngredientMeasurement])[indexPath.row].quantity
+        
             return ingredientCell
         }
         
