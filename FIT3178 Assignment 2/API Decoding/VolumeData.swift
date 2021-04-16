@@ -9,9 +9,9 @@ import UIKit
 import Foundation
 
 class VolumeData: NSObject, Decodable {
-    var books: [MealData]?
+    var collection: [MealData]?
     
  private enum CodingKeys: String, CodingKey {
-    case books = "meals"
+    case collection = "meals"
  }
 }

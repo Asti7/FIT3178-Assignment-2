@@ -10,7 +10,7 @@ import UIKit
 
 class IngredientData: NSObject, Decodable {
     var name: String
-    var ingreDescription: String
+    var ingredientDescription: String
     
     private enum IngredientKeys: String, CodingKey {
         case strIngredient
@@ -23,9 +23,9 @@ class IngredientData: NSObject, Decodable {
         self.name = try ingredientContainer.decode(String.self, forKey: .strIngredient)
         
         if let description = try ingredientContainer.decodeIfPresent(String.self, forKey: .strDescription){
-            self.ingreDescription = description
+            self.ingredientDescription = description
         }else{
-            self.ingreDescription = " "
+            self.ingredientDescription = " "
         }
     }
 }

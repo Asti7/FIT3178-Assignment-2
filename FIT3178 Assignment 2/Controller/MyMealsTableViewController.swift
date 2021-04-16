@@ -9,16 +9,10 @@ import UIKit
 
 class MyMealsTableViewController: UITableViewController, DatabaseListener{
    
-    
-    
-
     let SECTION_MEALS = 0
     let SECTION_INFO = 1
     let CELL_MEAL = "mealCell"
     let CELL_INFO = "mealSizeCell"
-    
-    
-    
     
     var currentMeals: [Meal] = []
     

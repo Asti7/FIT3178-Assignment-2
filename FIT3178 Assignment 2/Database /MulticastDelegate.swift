@@ -3,9 +3,13 @@
 //  FIT3178 Assignment 2
 //
 //  Created by Astitva  on 10/4/21.
-//
+//  Copyright © 2020 Monash University. All rights reserved.
 
 
+/*
+ MulticastDelegate.swift (this file) was adopted from
+ https://lms.monash.edu/pluginfile.php/12434409/mod_resource/content/7/MulticastDelegate.swift
+*/
 
 import Foundation
 

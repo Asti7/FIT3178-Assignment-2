@@ -3,7 +3,7 @@
 //  FIT3178 Assignment 2
 //
 //  Created by Astitva  on 10/4/21.
-//
+// 
 
 import Foundation
 
@@ -27,7 +27,9 @@ protocol DatabaseListener: AnyObject {
 }
 
 protocol DatabaseProtocol: AnyObject {
+    
     func cleanup()
+    
     func addMeal(name: String, instructions: String) -> Meal
     func addIngredient(name: String) -> Ingredient
     func addIngredientMeasurement(meal: Meal, ingredientName: String, measurement: String) -> IngredientMeasurement
@@ -43,9 +45,7 @@ protocol DatabaseProtocol: AnyObject {
     func removeIngredientFromMeal(meal: Meal, ingredientMeasurement: IngredientMeasurement)
     func removeMeal(meal: Meal)
     func fetchAllIngredients() -> [Ingredient]
-    func fetchIngredientByName(ingredientName: String) -> [Ingredient]
     func fetchMeal(mealName: String, mealInstructions: String) -> [Meal]
-    func fetchMealByName(mealName: String) -> [Meal]
     
     func addListener(listener: DatabaseListener)
     func removeListener(listener: DatabaseListener)

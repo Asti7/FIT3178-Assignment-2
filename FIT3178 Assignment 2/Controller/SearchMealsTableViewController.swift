@@ -31,7 +31,7 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
         
-        // search bar
+        // search bar 
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -39,7 +39,6 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
-        
         indicator.style = UIActivityIndicatorView.Style.medium
         indicator.center = self.tableView.center
         self.view.addSubview(indicator)
@@ -77,7 +76,7 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
                 let decoder = JSONDecoder()
                 let volumeData = try decoder.decode(VolumeData.self, from: data!)
     
-                if let books = volumeData.books {
+                if let books = volumeData.collection {
                     
                     for book in books{
                         var usefulIngredients = [String]()

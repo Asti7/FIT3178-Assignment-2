@@ -67,7 +67,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Meals" largeTitleDisplayMode="always" id="hHV-g4-5Lz">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Gci-k4-drn">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="Gci-k4-drn">
                             <connections>
                                 <segue destination="D0D-OI-INH" kind="show" identifier="goToSearchMealsScreen" id="ldj-83-tm8"/>
                             </connections>
@@ -259,7 +259,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Create New Meal" largeTitleDisplayMode="never" id="7T2-4n-22A">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="wze-8L-cb4">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="wze-8L-cb4">
                             <connections>
                                 <action selector="saveMeal:" destination="Diz-DK-m3Y" id="Kyy-1L-Gsc"/>
                             </connections>
@@ -280,7 +280,7 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="edit name " textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zud-Sg-olk">
                                 <rect key="frame" x="16" y="136" width="338" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
@@ -293,7 +293,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Edit Name" id="amS-jE-ATn">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="5H3-uF-Fen">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="5H3-uF-Fen">
                             <connections>
                                 <action selector="onSavePressed:" destination="4ne-Lc-Jey" id="6dA-c2-H9l"/>
                             </connections>
@@ -319,9 +319,15 @@
                                 <rect key="frame" x="16" y="124" width="343" height="420"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click on screen to type/edit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROd-qA-F1t">
+                                <rect key="frame" x="83" y="654" width="208" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kR2-Oo-MVU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -329,11 +335,15 @@
                             <constraint firstItem="U2s-MO-Gif" firstAttribute="leading" secondItem="kR2-Oo-MVU" secondAttribute="leading" constant="16" id="GJT-Ai-cdN"/>
                             <constraint firstItem="kR2-Oo-MVU" firstAttribute="trailing" secondItem="U2s-MO-Gif" secondAttribute="trailing" constant="16" id="Hqw-dt-arX"/>
                             <constraint firstItem="kR2-Oo-MVU" firstAttribute="bottom" secondItem="U2s-MO-Gif" secondAttribute="bottom" constant="234" id="Smj-Tc-dMX"/>
+                            <constraint firstItem="kR2-Oo-MVU" firstAttribute="trailing" secondItem="ROd-qA-F1t" secondAttribute="trailing" constant="84" id="Xmf-Tn-sy9"/>
                             <constraint firstItem="U2s-MO-Gif" firstAttribute="top" secondItem="kR2-Oo-MVU" secondAttribute="top" constant="36" id="brX-ag-zJw"/>
+                            <constraint firstItem="ROd-qA-F1t" firstAttribute="leading" secondItem="kR2-Oo-MVU" secondAttribute="leading" constant="83" id="cwB-dY-qMW"/>
+                            <constraint firstItem="ROd-qA-F1t" firstAttribute="top" secondItem="U2s-MO-Gif" secondAttribute="bottom" constant="110" id="oJd-NX-vHe"/>
+                            <constraint firstItem="kR2-Oo-MVU" firstAttribute="bottom" secondItem="ROd-qA-F1t" secondAttribute="bottom" constant="103" id="pvY-pg-dgP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Edit Instructions" id="xqw-vs-OEH">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="dcR-Sr-KJT">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="dcR-Sr-KJT">
                             <connections>
                                 <action selector="onSavePressed:" destination="VVR-Kf-2yd" id="AZx-aR-MRs"/>
                             </connections>

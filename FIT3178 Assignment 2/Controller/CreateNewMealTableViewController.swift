@@ -32,8 +32,6 @@ class CreateNewMealTableViewController: UITableViewController, DatabaseListener,
             self.navigationItem.title = clickedMeal?.name
             clickedMeal = databaseController?.editMeal(meal: clickedMeal!)
         }
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

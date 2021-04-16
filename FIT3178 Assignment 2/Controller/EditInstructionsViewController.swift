@@ -31,19 +31,7 @@ class EditInstructionsViewController: UIViewController {
         
         displayMessage(title: "Missing Field", message: "Instructions for the meal should be provided")
     }
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    
-    
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message,
         preferredStyle: UIAlertController.Style.alert)

@@ -1,9 +1,8 @@
-//
 //  MealData.swift
 //  FIT3178 Assignment 2
 //
 //  Created by Astitva  on 10/4/21.
-//
+
 
 import UIKit
 import Foundation
@@ -22,7 +21,10 @@ class MealData: NSObject, Decodable {
     
     private enum MealKeys: String, CodingKey {
     
+        
+        // coding keys according to themealdb api
         case strMeal
+        
         case strInstructions
         
         case strIngredient1
