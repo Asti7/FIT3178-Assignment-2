@@ -31,7 +31,11 @@ class EditInstructionsViewController: UIViewController {
         
         displayMessage(title: "Missing Field", message: "Instructions for the meal should be provided")
     }
+}
 
+
+extension EditInstructionsViewController{
+    
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message,
         preferredStyle: UIAlertController.Style.alert)

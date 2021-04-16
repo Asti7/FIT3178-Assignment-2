@@ -29,7 +29,14 @@ class EditNameViewController: UIViewController {
         }
         displayMessage(title: "Missing field", message: "A name must be provided for the meal")
     }
-    
+}
+
+protocol ChangeTitleNameDelegate {
+    func changeTitle(name:String)
+}
+
+
+extension EditNameViewController{
 
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message,
@@ -38,9 +45,4 @@ class EditNameViewController: UIViewController {
         UIAlertAction.Style.default,handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
-
-}
-
-protocol ChangeTitleNameDelegate {
-    func changeTitle(name:String)
 }

@@ -144,7 +144,7 @@ class CreateNewMealTableViewController: UITableViewController, DatabaseListener,
             return
         }
         
-        // create a real cocktail in the parent context
+        
         let _ = databaseController?.editSaveMeal(meal: clickedMeal!)
         navigationController?.popViewController(animated: true)
         return
@@ -181,7 +181,10 @@ class CreateNewMealTableViewController: UITableViewController, DatabaseListener,
             destination.databaseController = self.databaseController
         }
     }
-    
+}
+
+
+extension CreateNewMealTableViewController{
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message,
         preferredStyle: UIAlertController.Style.alert)

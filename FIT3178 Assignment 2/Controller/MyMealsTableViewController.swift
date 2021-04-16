@@ -40,7 +40,6 @@ class MyMealsTableViewController: UITableViewController, DatabaseListener{
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        
         return 2
     }
     
@@ -54,12 +53,6 @@ class MyMealsTableViewController: UITableViewController, DatabaseListener{
             return 0
         }
     }
-    
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
     
      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == SECTION_MEALS{

@@ -45,6 +45,7 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     
+    // UISearchBarDelegate method
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text, searchText.count > 0 else {
             return;
@@ -58,7 +59,7 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     
-    
+    // fetches data from api
     func requestMeals(mealName: String) {
         let searchString = REQUEST_STRING + mealName
         let jsonURL = URL(string: searchString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
@@ -75,30 +76,35 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
             do {
                 let decoder = JSONDecoder()
                 let volumeData = try decoder.decode(VolumeData.self, from: data!)
-    
-                if let books = volumeData.collection {
+                
+                if let collection = volumeData.collection {
                     
-                    for book in books{
+                    for item in collection{
+                        
+                        /* some ingredient measurements have null or empty string values,
+                         usefulIngredients and usefulIngredientMeasurement is used as arrays
+                         which have proper values, i.e., not null and not ""
+                        */
                         var usefulIngredients = [String]()
                         var usefulIngredientMeasuremets = [String]()
                         
-                        for item in book.ingredients{
+                        for item in item.ingredients{
                             if item != ""{
                                 usefulIngredients.append(item)
                             }
                         }
                         
-                        for item in book.ingredientMeasurement{
+                        for item in item.ingredientMeasurement{
                             if item != ""{
                                 usefulIngredientMeasuremets.append(item)
                             }
                         }
                         
-                        book.ingredients = usefulIngredients
-                        book.ingredientMeasurement = usefulIngredientMeasuremets
+                        item.ingredients = usefulIngredients
+                        item.ingredientMeasurement = usefulIngredientMeasuremets
                     }
                     
-                    self.searchedMeals.append(contentsOf: books)
+                    self.searchedMeals.append(contentsOf: collection)
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
@@ -174,20 +180,25 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
             return
         }
         
-        // add the cocktail to the database
+        
         let meal = databaseController?.addMeal(name: searchedMeals[indexPath.row].name, instructions: searchedMeals[indexPath.row].instructions)
         let ingredients = selectedMeal.ingredients
         let measurements = selectedMeal.ingredientMeasurement
-        
-        // given the generated cocktail, use the delegate to add ingredients
         for n in 0...searchedMeals[indexPath.row].ingredients.count - 1 {
-            let measurement = (n >= measurements.count ? "N/A" : measurements[n]) // some ingredients don't have measurements, so replace with n/a if no ingredient provided
+            
+            // there may be some ingredients which don't have measurements in the api being used, in that case replace it with n/a.
+            let measurement = (n >= measurements.count ? "n/a" : measurements[n])
             let _ = databaseController?.addIngredientMeasurement(meal: meal!, ingredientName: ingredients[n], measurement: measurement)
         }
         navigationController?.popViewController(animated: false)
         return
         
     }
+    
+}
+
+
+extension SearchMealsTableViewController{
     
     func displayMessage(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message,
@@ -196,7 +207,5 @@ class SearchMealsTableViewController: UITableViewController, UISearchBarDelegate
                                                     UIAlertAction.Style.default,handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
-    
-    
 }
 
