@@ -2,7 +2,7 @@
 //  Ingredient+CoreDataProperties.swift
 //  FIT3178 Assignment 2
 //
-//  Created by Astitva  on 10/4/21.
+//  Created by Astitva  on 18/4/21.
 //
 //
 
@@ -16,8 +16,8 @@ extension Ingredient {
         return NSFetchRequest<Ingredient>(entityName: "Ingredient")
     }
 
-    @NSManaged public var name: String?
     @NSManaged public var ingredientDescription: String?
+    @NSManaged public var name: String?
 
 }
 
